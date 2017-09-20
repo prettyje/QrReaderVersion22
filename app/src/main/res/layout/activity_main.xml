@@ -2,19 +2,37 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#ffffff"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
     tools:context="hansungpass.qrreaderversion2.MainActivity">
 
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/hansung2">
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="288dp"
-        android:layout_height="251dp"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_gravity="center"
-        android:background="#ffffff"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/click" />
+        app:srcCompat="@drawable/clickc" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="15dp"
+        android:text="Click 버튼을 누른 후 '모바일학생증'의 QR코드를 찍어주세요."
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="40dp"
+        android:textStyle="bold" />
+
+</FrameLayout>
+
 
 </FrameLayout>

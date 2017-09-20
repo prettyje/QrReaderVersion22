@@ -24,7 +24,7 @@ public class ChangeActivity extends AppCompatActivity {
     //view Objects dd
     ImageView imageView1; //성공
     ImageView imageView2; //실패
-    TextView textView; //확인 텍스트
+    TextView textView; //
     String output; //qr 스캔 결과
     Handler mHandler;
     Handler cHandler;
@@ -39,7 +39,7 @@ public class ChangeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change);
 
         //View Objects
-        textView = (TextView) findViewById(R.id.textview);
+        textView = (TextView) findViewById(R.id.textView);
 
 
         //intializing scan object
@@ -65,12 +65,12 @@ public class ChangeActivity extends AppCompatActivity {
                     if (ss.equals("success")) { //성공시
                         System.out.println("성공");
                         imageView1 = (ImageView) findViewById(R.id.imageView1);
-                        imageView1.setImageResource(R.drawable.sucess2);
+                        imageView1.setImageResource(R.drawable.sucessc);
                         imageView1.invalidate();
                     } else { //실패시
                         System.out.println("실패");
                         imageView1 = (ImageView) findViewById(R.id.imageView1);
-                        imageView1.setImageResource(R.drawable.fail2);
+                        imageView1.setImageResource(R.drawable.failc);
                         imageView1.invalidate();
                     }
                 } catch (Exception e) {
@@ -94,9 +94,9 @@ public class ChangeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            output = result.getContents();
+          /*  output = result.getContents();
             textView.setText(output);
-
+*/
             if (result != null) {
                 //qrcode 가 없으면
                 if (result.getContents() == null) {
@@ -139,7 +139,7 @@ public class ChangeActivity extends AppCompatActivity {
     class ConnectThread extends Thread {
         public void run() {
 
-            String host = "113.198.84.55";
+            String host = "113.198.84.23";
             int port = 80;
             System.out.println("스레드 시작");
 
