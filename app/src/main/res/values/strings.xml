@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">QrReaderVersion2</string>
+    <string name="title_activity_change">ChangeActivity</string>
+</resources>
