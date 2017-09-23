@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -29,6 +30,7 @@ public class ChangeActivity extends AppCompatActivity {
     Handler mHandler;
     Handler cHandler;
     Bundle bundle;
+    int mcamera;
     //qr code scanner object
     private IntentIntegrator qrScan;
 
@@ -41,10 +43,12 @@ public class ChangeActivity extends AppCompatActivity {
         //View Objects
         textView = (TextView) findViewById(R.id.textView);
 
+       // mcamera = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
         //intializing scan object
         qrScan = new IntentIntegrator(this);
         //scan option
+       // qrScan.setCameraId(1); //전면카메라로 변경
         qrScan.setPrompt("HansungPass 에서 Scanning중...");
         qrScan.setOrientationLocked(true);
 
@@ -67,6 +71,7 @@ public class ChangeActivity extends AppCompatActivity {
                         imageView1 = (ImageView) findViewById(R.id.imageView1);
                         imageView1.setImageResource(R.drawable.sucessc);
                         imageView1.invalidate();
+                        textView.setText(output.substring(0,7)+"님 입장하십시오.");
                     } else { //실패시
                         System.out.println("실패");
                         imageView1 = (ImageView) findViewById(R.id.imageView1);
@@ -94,13 +99,19 @@ public class ChangeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-          /*  output = result.getContents();
-            textView.setText(output);
-*/
+
             if (result != null) {
                 //qrcode 가 없으면
                 if (result.getContents() == null) {
-                    //Toast.makeText(ChangeActivity.this, "취소!", Toast.LENGTH_SHORT).show();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("key", "Qr is empty");
+                    Message msg2 = new Message();
+                    msg2.setData(bundle);
+                    mHandler.sendMessage(msg2);
+
+                    Toast.makeText(ChangeActivity.this, "취소!", Toast.LENGTH_SHORT).show();
+                    cHandler.sendEmptyMessageDelayed(0,3000);
                 } else {
                     //qrcode 결과가 있으면
                     // Toast.makeText(ChangeActivity.this, "스캔완료!", Toast.LENGTH_SHORT).show();
@@ -112,7 +123,7 @@ public class ChangeActivity extends AppCompatActivity {
                     }
                     //Toast.makeText(ChangeActivity.this, result.getContents(), Toast.LENGTH_LONG).show();
                     output = result.getContents();
-                    textView.setText(output);
+                   // textView.setText(output);
                     ConnectThread ct = new ConnectThread();//서버 연결 쓰레드
                     ct.start();
                 }
@@ -120,20 +131,7 @@ public class ChangeActivity extends AppCompatActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-        // output값(=qr코드 url) 을 split으로 학번과 암호화 값으로 잘라서 보내야함
-      /*  if (requestCode == 0) {
 
-            if (resultCode == Activity.RESULT_OK) {
-                String contents = data.getStringExtra("SCAN_RESULT");
-                output = contents;
-                textView.setText("qr코드에 담긴 내용" + output);
-
-                ConnectThread ct = new ConnectThread();//서버 연결 쓰레드
-                ct.start();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-*/
     }
 
     class ConnectThread extends Thread {
@@ -180,7 +178,7 @@ public class ChangeActivity extends AppCompatActivity {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("접근실패");
+                Toast.makeText(ChangeActivity.this, "접근실패", Toast.LENGTH_SHORT).show();
             }
         }
     }
