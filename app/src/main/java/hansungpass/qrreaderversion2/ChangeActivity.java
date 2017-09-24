@@ -29,8 +29,8 @@ public class ChangeActivity extends AppCompatActivity {
     String output; //qr 스캔 결과
     Handler mHandler;
     Handler cHandler;
-    Bundle bundle;
-    int mcamera;
+    Bundle bundle;   //mHandler
+
     //qr code scanner object
     private IntentIntegrator qrScan;
 
@@ -48,7 +48,7 @@ public class ChangeActivity extends AppCompatActivity {
         //intializing scan object
         qrScan = new IntentIntegrator(this);
         //scan option
-       // qrScan.setCameraId(1); //전면카메라로 변경
+        qrScan.setCameraId(1); //전면카메라로 변경
         qrScan.setPrompt("HansungPass 에서 Scanning중...");
         qrScan.setOrientationLocked(true);
 
@@ -71,7 +71,7 @@ public class ChangeActivity extends AppCompatActivity {
                         imageView1 = (ImageView) findViewById(R.id.imageView1);
                         imageView1.setImageResource(R.drawable.sucessc);
                         imageView1.invalidate();
-                        textView.setText(output.substring(0,7)+"님 입장하십시오.");
+                        textView.setText(output.substring(0,7)+"님 반갑습니다. 입장하십시오.");
                     } else { //실패시
                         System.out.println("실패");
                         imageView1 = (ImageView) findViewById(R.id.imageView1);
@@ -104,10 +104,10 @@ public class ChangeActivity extends AppCompatActivity {
                 //qrcode 가 없으면
                 if (result.getContents() == null) {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("key", "Qr is empty");
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putString("key", "Qr is empty");
                     Message msg2 = new Message();
-                    msg2.setData(bundle);
+                    msg2.setData(bundle2);
                     mHandler.sendMessage(msg2);
 
                     Toast.makeText(ChangeActivity.this, "취소!", Toast.LENGTH_SHORT).show();
@@ -162,11 +162,11 @@ public class ChangeActivity extends AppCompatActivity {
                 System.out.println("서버에서 받은 데이터 "  + result_server);
 
 
-                Bundle bundle = new Bundle();
-                bundle.putString("key", result_server);
-                Message msg = new Message();
-                msg.setData(bundle);
-                mHandler.sendMessage(msg);
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("key", result_server);
+                Message msg3 = new Message();
+                msg3.setData(bundle3);
+                mHandler.sendMessage(msg3);
                 cHandler.sendEmptyMessageDelayed(0,3000);
 
 
@@ -178,7 +178,13 @@ public class ChangeActivity extends AppCompatActivity {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(ChangeActivity.this, "접근실패", Toast.LENGTH_SHORT).show();
+                Bundle bundle4 = new Bundle();
+                bundle4.putString("key", "Server Connect Fail");
+                Message msg4 = new Message();
+                msg4.setData(bundle4);
+                //Toast.makeText(ChangeActivity.this, "접근실패", Toast.LENGTH_SHORT).show();
+                mHandler.sendMessage(msg4);
+                cHandler.sendEmptyMessageDelayed(0,3000);
             }
         }
     }
