@@ -69,7 +69,7 @@ public class ChangeActivity extends AppCompatActivity {
                     if (ss.equals("success")) { //성공시
                         System.out.println("성공");
                         imageView1 = (ImageView) findViewById(R.id.imageView1);
-                        imageView1.setImageResource(R.drawable.sucessc);
+                        imageView1.setImageResource(R.drawable.success);
                         imageView1.invalidate();
                         textView.setText(output.substring(0,7)+"님 반갑습니다. 입장하십시오.");
                     } else { //실패시
